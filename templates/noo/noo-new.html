@@ -1,0 +1,19 @@
+<ion-view view-title="NEW NOO">
+  <ion-content class="has-header has-footer" padding="true">
+      <ion-list show-Delete = "!data.showDelete" show-Reorder = "!data.showReorder">
+          <ion-item class="item-icon-right"  type="item-text-wrap" ng-repeat="item in customers" >
+              <img ng-src="img/C.png" class="thumbnail-custom">
+              <h4>{{item.CUST_NM|uppercase}}<br> 
+                  <font size="2" color="gray" >{{item.CUST_KD}}</font></br>
+                  <font size="2" color="gray" >TELP: {{item.TLP1}}</font></br>
+                  <font size="2" color="gray" >By: {{item.CREATED_BY|uppercase}}</font></br> 
+                  <font size="2" color="gray" >{{item.CREATED_AT}}</font></br>
+                  <font size="2" color="gray" >{{item.NOTE|uppercase}}</font>
+
+              </h4>
+              <ion-reorder-button class="ion-arrow-right-a" ng-click="gotodetail(item)"></ion-reorder-button>
+              <!-- <ion-reorder-button class="ion-arrow-right-a" ui-sref="tab.noo.new-detail({id:item.CUST_KD})"></ion-reorder-button> -->
+          </ion-item>
+      </ion-list>
+  </ion-content>
+</ion-view>

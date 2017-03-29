@@ -1,0 +1,16 @@
+<ion-view view-title="Account">
+  <ion-content>
+    <ion-list>
+	    <ion-toggle  ng-model="settings.enableNotif">
+	        Enable Notifikasi
+	    </ion-toggle>
+	    <ion-toggle  ng-model="settings.enableSound">
+	        Enable Sound
+	    </ion-toggle>
+	    <ion-item class="item item-icon-right" type="item-text-wrap" ng-click="logout()">
+	        <h2>LOG OUT</h2>
+	        <i class="icon ion-log-out"></i>
+      	</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

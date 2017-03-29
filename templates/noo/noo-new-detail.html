@@ -1,0 +1,11 @@
+<ion-view view-title="NOO DETAIL">
+  <ion-content>
+    <div class="row" ng-repeat="(keys,items) in images" style="border-top: 1px solid #999;">
+      <div class="col col-50 " ng-repeat="(key,item) in items" style="padding:1px;border-right:1px solid #999" ng-click="ambilgambar(keys,key)">
+          <div class="item item-images" style="border-width: 0px; border-style: none;">
+          <img  data-ng-src="data:image/jpeg;base64,{{item.IMG_NM_BASE64}}" width="100%" />
+          </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

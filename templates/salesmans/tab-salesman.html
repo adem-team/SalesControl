@@ -1,0 +1,17 @@
+<ion-view view-title="ABSENSI">
+  <ion-content class="has-header has-footer" padding="true">
+    <ion-list ng-if="salesmans.length > 0">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="item in salesmans | orderBy:'USER_ID'" type="item-text-wrap" href="#/tab/salesman/{{item.USER_ID}}">
+        <img ng-src="img/S.jpg">
+        <h2>{{item.USER_NM|uppercase}}</h2>
+        <p>{{item.WAKTU_MASUK |date: 'dd/MM/yyyy'}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+    </ion-list>
+    <ion-list ng-if="salesmans.length < 1">
+      <ion-item class="item-remove-animate item-icon-right calm-bg" type="item-text-wrap">
+        <h2 data-fittext="1" data-fittext-max="14">BELUM ADA YANG ABSENSI</h2>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
