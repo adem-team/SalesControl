@@ -1,19 +1,48 @@
-<ion-view view-title="NEW NOO {{customers.length}}">
-  <ion-content class="has-header has-footer" padding="true">
-      <ion-list show-Delete = "!data.showDelete" show-Reorder = "!data.showReorder">
-          <ion-item class="item-icon-right"  type="item-text-wrap" ng-repeat="item in customers" >
-              <img ng-src="img/C.png" class="thumbnail-custom">
-              <h4>{{$index + 1}}.{{item.CUST_NM|uppercase}}<br> 
-                  <font size="2" color="gray" >{{item.CUST_KD}}</font></br>
-                  <font size="2" color="gray" >TELP: {{item.TLP1}}</font></br>
-                  <font size="2" color="gray" >By: {{item.CREATED_BY|uppercase}}</font></br> 
-                  <font size="2" color="gray" >{{item.CREATED_AT}}</font></br>
-                  <font size="2" color="gray" >{{item.NOTE|uppercase}}</font>
+<ion-view view-title="NEW NOO">
+    <ion-nav-buttons side="left">
+        <button class="button button-icon icon ion-trash-b" 
+                ng-show="selectionActive" 
+                ng-click="delete()">
+        </button>
+    </ion-nav-buttons> 
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-android-checkmark-circle" 
+                ng-show="selectionActive" 
+                ng-click="update()">
+        </button>
+    </ion-nav-buttons>  
+  <ion-content has-footer="true" has-header="true" has-tabs="true" padding="true">
+    <ion-refresher pulling-text="" on-refresh="onSearchChange()"></ion-refresher>
+    <label class="item item-input">
+      <i class="icon ion-search placeholder-icon"></i>
+      <input type="search" placeholder="Search" ng-model="searchtext">
+    </label>
+    <div class="row" style="text-align:center;"></div>
+    
+    <ion-list>
+        <ion-item class="item-text-wrap item-avatar item-icon-right box-shadow-red" letters-of="{{ item.CUST_NM|uppercase}}"
+                  background="random"
+                  border="none"
+                  color="white"
+                  letters="1"
+                  ng-repeat="item in filtered = (customers | filter:searchtext)" on-double-tap="onDoubleTap(item)">
+            <h2>{{item.CUST_NM|uppercase}}</h2>
+            <p>{{item.CUST_KD}}</p>
+            <p>TELP: {{item.TLP1}}</p>
+            <p>By: {{item.CREATED_BY|capitalize}}</p>
+            <p>{{item.CREATED_AT}}</p>
+            <p>{{item.NOTE|capitalize}}</p>
+            <i class="icon ion-chevron-right icon-accessory" on-tap="gotodetail(item)" style="cursor:pointer"></i>
+        </ion-item>
+    </ion-list>
+    <ion-list ng-if="filtered.length < 1">
+      <ion-item class="item-icon-right calm-bg" type="item-text-wrap">
+        <h2 data-fittext="1" data-fittext-max="14">Data Tidak Ditemukan</h2>
+      </ion-item>
+    </ion-list>
+    <ion-list style="padding:10px"></ion-list>
 
-              </h4>
-              <ion-reorder-button class="ion-arrow-right-a" ng-click="gotodetail(item)"></ion-reorder-button>
-              <!-- <ion-reorder-button class="ion-arrow-right-a" ui-sref="tab.noo.new-detail({id:item.CUST_KD})"></ion-reorder-button> -->
-          </ion-item>
-      </ion-list>
+    
+
   </ion-content>
 </ion-view>

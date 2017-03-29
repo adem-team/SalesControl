@@ -2,7 +2,7 @@
   <ion-content class="padding">
   <ion-refresher pulling-text="" on-refresh="doRefresh()"></ion-refresher>
     <ion-list >
-      <ion-item class="item-remove-animate item-avatar item-icon-right"  ng-repeat="item in customers | orderBy:'-CHECKIN_TIME'" type="item-text-wrap">
+      <ion-item class="item-avatarz item-icon-left item-icon-right" ng-repeat="item in customers | orderBy:'-CHECKIN_TIME'">
         <img ng-src="{{item.IMAGE_CHECK}}">
         <h2>{{item.CUST_NM}}</h2>
         <p>{{item.CHECKIN_TIME}}</p>
@@ -11,7 +11,7 @@
       </ion-item>
     </ion-list>
     <ion-list ng-if="customers.length < 1">
-      <ion-item class="item-remove-animate item-icon-right calm-bg" type="item-text-wrap">
+      <ion-item class="item-icon-right calm-bg" type="item-text-wrap">
         <h2 data-fittext="1" data-fittext-max="14">BELUM ADA CUSTOMER YANG DIDAFTARKAN</h2>
       </ion-item>
     </ion-list>

@@ -1,34 +1,123 @@
 angular.module('starter')
-.controller('NooNewCtrl', function($scope,$state,$ionicPopup,$ionicLoading,CustomerFac,StorageService) 
+.controller('NooNewCtrl', function($rootScope,$scope,$state,$ionicPopup,$ionicModal,$ionicLoading,$ionicLetterAvatarSelector,CustomerFac,StorageService) 
 {
-	$ionicLoading.show
-    ({
-      template: 'Loading...'
-    })
-    .then(function()
+    $scope.$on($ionicLetterAvatarSelector.stateChanged, function($event, selectionActive) 
     {
-		CustomerFac.GetNooCustomers()
-		.then(function(response)
-		{
-			$scope.customers = response;
-		},
-        function(error)
-        {
-            console.log(error);
+        $scope.selectionActive = selectionActive;
+    });
+    $scope.finish = $ionicLetterAvatarSelector.finish;
+
+    $scope.onSearchChange = function()
+    {
+        $ionicLoading.show
+        ({
+          template: 'Loading...'
         })
-        .finally(function()
+        .then(function()
         {
-            $ionicLoading.show({template: 'Loading...',duration: 500}); 
-        });
-	});
+    		CustomerFac.GetNooCustomers()
+    		.then(function(response)
+    		{
+    			$scope.customers = response;
+    		},
+            function(error)
+            {
+                console.log(error);
+            })
+            .finally(function()
+            {
+                $ionicLoading.show({template: 'Loading...',duration: 300});
+                $scope.$broadcast('scroll.refreshComplete');
+                $scope.finish(); 
+            });
+    	});
+    }
+    $scope.onSearchChange();
+
     $scope.gotodetail = function(customers)
     {
         StorageService.set('single-noo',customers);
         $state.go('tab.noo.new-detail', {'id':customers.CUST_KD});
     }
+
+    $scope.delete = function() 
+    {
+        var confirmPopup = $ionicPopup.confirm
+        ({
+            title: 'Reject',
+            template: 'Reject This Customers?',
+            cancelText:'Cancel',
+            cancelType:'button-assertive',
+        });
+
+        confirmPopup.then(function(res) 
+        {
+            if(res) 
+            {
+                var selectedIDs = $ionicLetterAvatarSelector.getData();
+                angular.forEach(selectedIDs,function(value,key)
+                {
+                   var index = _.findIndex($scope.customers, { CUST_KD: value.CUST_KD });
+                   $scope.customers.splice(index,1); 
+                });
+                $scope.finish(); 
+            }
+       });
+    };
+
+    $scope.update = function() 
+    {
+        var confirmPopup = $ionicPopup.confirm
+        ({
+            title: 'Aprove',
+            template: 'Aprove This Customers?',
+            cancelText:'Cancel',
+            cancelType:'button-assertive',
+        });
+
+        confirmPopup.then(function(res) 
+        {
+            if(res) 
+            {
+                var selectedIDs = $ionicLetterAvatarSelector.getData();
+                angular.forEach(selectedIDs,function(value,key)
+                {
+                   var index = _.findIndex($scope.customers, { CUST_KD: value.CUST_KD });
+                   $scope.customers.splice(index,1); 
+                });
+                $scope.finish(); 
+            }
+       });  
+    };
+
+    $scope.onDoubleTap = function(item)
+    {
+        $ionicModal.fromTemplateUrl('templates/noo/noo-popover.html', 
+        {
+            scope: $scope
+        })
+        .then(function(modal) 
+        {
+            $ionicLoading.show({template: 'Loading...',duration: 300});
+            $scope.modal            = modal;
+            $scope.item = item;
+            $scope.modal.show();
+            
+        });  
+    }
+    $scope.closeModal = function() 
+    {
+        $scope.modal.remove();
+    };
+    $scope.$on('$destroy', function() 
+    {
+        $scope.modal.remove();
+    });
+
+
 })
 
-.controller('NooNewDetailCtrl', function($scope,$state,$stateParams,$ionicPopup,$ionicLoading,UtilService,StorageService,CustomerFac) 
+.controller('NooNewDetailCtrl', function($scope,$state,$ionicModal,$stateParams,$ionicPopup,$ionicLoading,UtilService,StorageService,CustomerFac) 
 {
     $scope.params       = $stateParams.id;
     console.log($scope.params);
@@ -74,4 +163,30 @@ angular.module('starter')
             $ionicLoading.show({template: 'Loading...',duration: 500});
         });
     });
+    
+    $scope.showImages = function(index) 
+    {
+        $scope.activeSlide = index;
+        $scope.showModal('templates/noo/image-popover.html');
+    }
+ 
+    $scope.showModal = function(templateUrl) 
+    {
+        $ionicModal.fromTemplateUrl(templateUrl, 
+        {
+            scope: $scope,
+            animation: 'slide-in-up'
+        })
+        .then(function(modal) 
+        {
+            $scope.modal = modal;
+            $scope.modal.show();
+        });
+    }
+ 
+    // Close the modal
+    $scope.closeModal = function() {
+        $scope.modal.hide();
+        $scope.modal.remove()
+    };
 });

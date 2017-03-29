@@ -15,18 +15,10 @@
 
       <div class="container">
         <div class="cell-row cell-row-{{$index + 1}}" ng-repeat="items in datas" >
-          <div class="cell-{{($parent.$index * datas.length)+($index+1)}}" ng-repeat="(key,value) in items" ng-click="gotodashdetail(key)"  >
+          <div class="cell-{{(2 * $parent.$index) + $index + 1}}" ng-repeat="item in items" ng-click="gotodashdetail(item.kunci,item.status)">
             <div>
-              <div><h1>{{value}}</h1></div>
-              <div><h2>{{key}}</h2></div>
-            </div>
-          </div>
-        </div>
-        <div class="cell-row">
-          <div>
-            <div>
-              <div><h1></h1></div>
-              <div></div>
+              <div><h1>{{item.nilai}} </h1></div>
+              <div><h2>{{item.kunci}}</h2></div>
             </div>
           </div>
         </div>

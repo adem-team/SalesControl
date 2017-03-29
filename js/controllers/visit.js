@@ -23,6 +23,7 @@ angular.module('starter')
             {
                 $scope.datas = [];
                 $scope.selectitem = [];
+
                 angular.forEach(response,function(value,key)
                 {
                     var existingFilter = _.indexOf($scope.selectitem, value.username);
@@ -45,6 +46,7 @@ angular.module('starter')
                     }
                     $scope.datas.push(value)
                 });
+                console.log($scope.selectitem);
             },
             function(error)
             {
@@ -52,7 +54,8 @@ angular.module('starter')
             })
             .finally(function()
             {
-                $ionicLoading.show({template: 'Loading...',duration: 500}); 
+                $ionicLoading.show({template: 'Loading...',duration: 500});
+                $scope.$broadcast('scroll.refreshComplete'); 
             });
         });
     }
@@ -158,6 +161,11 @@ angular.module('starter')
             RoadSalesHeaderFac.CreateRoadSalesHeader(roadsalesman)
             .then(function(response)
             {
+                var checkdiselect = _.contains($scope.selectitem, profile.username);
+                if(!checkdiselect)
+                {
+                    $scope.selectitem.push(profile.username);
+                }
                 roadsalesman.ROAD_D         = response.ROAD_D;
                 roadsalesman.EDIT_SHOW      = true;
                 roadsalesman.ICON_CLASS     = 'ion-ios-plus-outline';
@@ -167,7 +175,7 @@ angular.module('starter')
             },
             function(error)
             {
-                console.log(error);
+                alert("Gagal Menyimpan Ke Server.Kirim Kembali");
             })
             .finally(function()
             {
@@ -188,6 +196,7 @@ angular.module('starter')
         $scope.lat      = 0;
         $scope.longi    = 0;
     });
+
     $scope.OpenModalViewOrEdit = function(item)
     {
         if(item.EDIT_SHOW)
@@ -199,6 +208,7 @@ angular.module('starter')
             $scope.openModalView(item);
         }
     }
+
     $scope.openModalEditVisit = function(item)
     {
         var toarr = item.CASE_NM;
@@ -303,6 +313,7 @@ angular.module('starter')
             $scope.viewmodal.show();
         });
     }
+    
     $scope.CloseModelView = function() 
     {
         $scope.viewmodal.remove();
@@ -323,9 +334,10 @@ angular.module('starter')
 .controller('VisitDetailCtrl', 
 function($rootScope,$scope,$location,$timeout,$stateParams,$filter,$ionicLoading,$ionicPopup,$ionicModal,$cordovaCamera,RoadSalesImageFac,UtilService,StorageService) 
 {
-    var profile             = StorageService.get('profile');
-    var datagambar          = StorageService.get('itemgambar');
-    console.log(datagambar);
+    $scope.profile          = StorageService.get('profile');
+    $scope.datagambar       = StorageService.get('itemgambar');
+    $scope.tglgambarheader  = $filter('date')(new Date($scope.datagambar.CREATED_AT),'yyyy-MM-dd');
+    $scope.tanggalsekarang  = $filter('date')(new Date(),'yyyy-MM-dd');
     var idroadsales         = $stateParams.detail;
     $ionicLoading.show
     ({
@@ -336,29 +348,12 @@ function($rootScope,$scope,$location,$timeout,$stateParams,$filter,$ionicLoading
         RoadSalesImageFac.GetRoadSalesImageByIdRoadSales(idroadsales)
         .then(function(response)
         {
-            $scope.image = [];
-            if(angular.isArray(response))
-            {
-               var lengthgambar = response.length;
-               if(lengthgambar < 4) 
-               {
-                    var sisagambar = 4 - lengthgambar;
-                    for(i=0;i < sisagambar; i++)
-                    {
-                        response.push({'IMGBASE64':'img/camera.jpg'});
-                    }
-               }
-               $scope.image = response;
-            }
-            else
-            {
-               $scope.image = [{'IMGBASE64':'img/camera.jpg'},{'IMGBASE64':'img/camera.jpg'},{'IMGBASE64':'img/camera.jpg'},{'IMGBASE64':'img/camera.jpg'}]; 
-            }
-            $scope.images = UtilService.ArrayChunk($scope.image,2);  
+            $scope.image    = response;
+            $scope.images   = UtilService.ArrayChunk($scope.image,2);  
         },
         function(error)
         {
-            console.log(error);
+            alert("Error");
         })
         .finally(function()
         {
@@ -368,54 +363,90 @@ function($rootScope,$scope,$location,$timeout,$stateParams,$filter,$ionicLoading
 
     $scope.ambilgambar = function(parent,child)
     {
-        if( datagambar.USER_ID == profile.id  )
+        document.addEventListener("deviceready", function () 
         {
-            if( $filter('date')(datagambar.TGL,'yyyy-MM-dd') == $filter('date')(new Date(),'yyyy-MM-dd') )
+            var options = $rootScope.getCameraOptions();
+            $cordovaCamera.getPicture(options)
+            .then(function (imageData) 
             {
-                document.addEventListener("deviceready", function () 
+                var data = {};
+                data.ID_ROAD        = idroadsales;
+                data.IMGBASE64      = 'data:image/jpeg;base64,' + imageData;
+                data.STATUS         = 1; 
+                data.CREATED_BY     = $scope.profile.id;
+                data.CREATED_AT     = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+                $ionicLoading.show
+                ({
+                    template: 'Loading...'
+                })
+                .then(function()
                 {
-                    var options = $rootScope.getCameraOptions();
-                    $cordovaCamera.getPicture(options)
-                    .then(function (imageData) 
+                    RoadSalesImageFac.CreateRoadSalesImage(data)
+                    .then(function(response)
+                    {   
+                        $scope.image.push(data);
+                        $scope.images   = UtilService.ArrayChunk($scope.image,2);
+                    },
+                    function(error)
                     {
-                        var data = {};
-                        data.ID_ROAD        = idroadsales;
-                        data.IMGBASE64      = 'data:image/jpeg;base64,' + imageData;
-                        data.STATUS         = 1; 
-                        data.CREATED_BY     = profile.id;
-                        data.CREATED_AT     = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-                        $ionicLoading.show
-                        ({
-                            template: 'Loading...'
-                        })
-                        .then(function()
-                        {
-                            RoadSalesImageFac.CreateRoadSalesImage(data)
-                            .then(function(response)
-                            {   
-                                $scope.images[parent][child].IMGBASE64  = data.IMGBASE64;
-                            },
-                            function(error)
-                            {
-                                console.log(error);
-                            })
-                            .finally(function()
-                            {
-                                $ionicLoading.show({template: 'Loading...',duration: 500}); 
-                            });
-                        });
+                        alert("Gambar Gagal Diupload");
+                    })
+                    .finally(function()
+                    {
+                        $ionicLoading.show({template: 'Loading...',duration: 500}); 
                     });
-                }, false); 
-            }
-            else
-            {
-                alert("Tanggal Pengambilan Gambar Telah Berlalu");
-            }
-            
-        }
-        else
+                });
+            });
+        }, false); 
+    }
+    $scope.showImages = function(index) 
+    {
+        $scope.activeSlide = index;
+        $scope.showModal('templates/visit/image-popover.html');
+    }
+ 
+    $scope.showModal = function(templateUrl) 
+    {
+        $ionicModal.fromTemplateUrl(templateUrl, 
         {
-            alert("Ini Bukan Milikmu");
+            scope: $scope,
+            animation: 'slide-in-up'
+        }).then(function(modal) 
+        {
+            $scope.modal = modal;
+            $scope.modal.show();
+        });
+    }
+ 
+    $scope.closeModal = function() 
+    {
+        $scope.modal.hide();
+        $scope.modal.remove()
+    };
+
+    $scope.getdata  = function(item)
+    {
+
+        var quality = [0.0, 1.0];
+        function imageToDataUri(img, width, height) 
+        {
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            ctx.scale(1, 1);
+            canvas.width = width;
+            canvas.height = height;
+            ctx.drawImage(img, 0, 0, width, height);
+            return canvas.toDataURL();
         }
+        var img     = new Image;
+        img.onload  = resizeImage;
+        img.src     = item;
+
+        function resizeImage() 
+        {
+            var newDataUri = imageToDataUri(img, 500, 500);
+            return newDataUri;
+        }
+        return(img.onload());
     }
 });

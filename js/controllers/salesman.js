@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('SalesmanCtrl', function($scope,$filter,$ionicLoading,SalesTrackFac) 
+.controller('SalesmanCtrl', function($scope,$state,$filter,$ionicLoading,SalesTrackFac) 
 {
     var tanggalplan         = $filter('date')(new Date(),'yyyy-MM-dd');
     $scope.doRefresh    = function()
@@ -30,6 +30,10 @@ angular.module('starter')
         });
     }
     $scope.doRefresh();
+    $scope.goToDetail= function(item)
+    {
+        $state.go('tab.salesman-detail', {'salesmanid':item.USER_ID});
+    }
 
 })
 

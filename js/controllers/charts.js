@@ -34,7 +34,7 @@ angular.module('starter')
         })
         .finally(function()
         {
-            $ionicLoading.show({template: 'Loading...',duration: 5000});
+            $ionicLoading.show({template: 'Loading...',duration: 500});
         });
     });
 })
@@ -89,9 +89,71 @@ angular.module('starter')
             })
             .finally(function()
             {
-                $ionicLoading.show({template: 'Loading...',duration: 300});
+                $ionicLoading.show({template: 'Loading...',duration: 500});
             });
         });
     }
     $scope.onSearchChange();
+})
+
+.controller('ChartGudangStockCtrl', function($scope,$state,$ionicPopup,$ionicLoading,ChartsFac) 
+{
+    $ionicLoading.show
+    ({
+      template: 'Loading...'
+    })
+    .then(function()
+    {
+        ChartsFac.GetStockGudangCharts()
+        .then(function(response)
+        {
+            console.log(response);
+            FusionCharts.ready(function () 
+            {
+                var stockGudang = new FusionCharts({
+                type: 'msline',
+                renderAt: 'chart-stockgudang',
+                width: '100%',
+                dataFormat: 'json',
+                dataSource: response
+                });
+                stockGudang.render();
+
+            }); 
+        })
+        .finally(function()
+        {
+            $ionicLoading.show({template: 'Loading...',duration: 1500});
+        });
+    });
+})
+
+.controller('ChartSalesPOCtrl', function($scope,$state,$ionicPopup,$ionicLoading,ChartsFac) 
+{
+    $ionicLoading.show
+    ({
+      template: 'Loading...'
+    })
+    .then(function()
+    {
+        ChartsFac.GetSalesPOCharts()
+        .then(function(response)
+        {
+            FusionCharts.ready(function () 
+            {
+                var salesPO = new FusionCharts({
+                type: 'msline',
+                renderAt: 'chart-salespo',
+                width: '100%',
+                dataFormat: 'json',
+                dataSource: response
+                });
+                salesPO.render();
+            }); 
+        })
+        .finally(function()
+        {
+            $ionicLoading.show({template: 'Loading...',duration: 1500});
+        });
+    });
 });

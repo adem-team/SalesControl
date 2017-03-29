@@ -1,30 +1,48 @@
-<ion-view view-title="ADMIN APPROVE">
-  <ion-content class="has-header has-footer" padding="true">
-      <ion-list show-Delete = "!data.showDelete" show-Reorder = "!data.showReorder">
-          <ion-item>
-              <img ng-src="img/C.png" class="thumbnail-custom">
-              <h2>Customer Satu
-                  <br> 
-                  <font size="2" color="gray" >Jl.Merdeka Timur</font>
-                  <br> 
-                  <font size="2" color="gray" >081260014478</font></br>
-                  <font size="2" color="gray" >12 Desember 2016</font>
-              </h2>
-              <ion-delete-button class="ion-ios-plus-outline" ng-click="openModal(item);"></ion-delete-button>
-              <ion-reorder-button class="ion-arrow-right-a" ></ion-reorder-button>
-          </ion-item>
-          <ion-item>
-              <img ng-src="img/C.png" class="thumbnail-custom">
-              <h2>Customer Satu
-                  <br> 
-                  <font size="2" color="gray" >Jl.Merdeka Timur</font>
-                  <br> 
-                  <font size="2" color="gray" >081260014478</font></br>
-                  <font size="2" color="gray" >12 Desember 2016</font>
-              </h2>
-              <ion-delete-button class="ion-ios-plus-outline" ng-click="openModal(item);"></ion-delete-button>
-              <ion-reorder-button class="ion-arrow-right-a" ></ion-reorder-button>
-          </ion-item>
-      </ion-list>
+<ion-view view-title="ADMIN APROVE">
+    <ion-nav-buttons side="left">
+        <button class="button button-icon icon ion-trash-b" 
+                ng-show="selectionActive" 
+                ng-click="delete()">
+        </button>
+    </ion-nav-buttons> 
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-android-checkmark-circle" 
+                ng-show="selectionActive" 
+                ng-click="update()">
+        </button>
+    </ion-nav-buttons>  
+    
+  <ion-content class="has-footer" padding="true">
+    <ion-refresher pulling-text="" on-refresh="onSearchChange()"></ion-refresher>
+    <label class="item item-input">
+      <i class="icon ion-search placeholder-icon"></i>
+      <input type="search" placeholder="Search" ng-model="searchtext">
+    </label>
+    <div class="row" style="text-align:center;"></div>
+    
+    <ion-list>
+        <ion-item class="item-text-wrap item-avatar item-icon-right  box-shadow" letters-of="{{ item.CUST_NM|uppercase}}"
+                  item="{{ item }}"
+                  background="random"
+                  selectionIos="true"
+                  border="none"
+                  color="white"
+                  letters="1"
+                  ng-repeat="item in filtered = (customers | filter:searchtext)" on-double-tap="onDoubleTap(item)">
+            <h2>{{item.CUST_NM|uppercase}}</h2>
+            <p>{{item.CUST_KD}}</p>
+            <p>TELP: {{item.TLP1}}</p>
+            <p>By: {{item.CREATED_BY|capitalize}}</p>
+            <p>{{item.CREATED_AT}}</p>
+            <p>{{item.NOTE|capitalize}}</p>
+            <i class="icon ion-chevron-right icon-accessory" on-tap="gotodetail(item)" style="cursor:pointer"></i>
+        </ion-item>
+    </ion-list>
+    <ion-list ng-if="filtered.length < 1">
+      <ion-item class="item-icon-right calm-bg" type="item-text-wrap">
+        <h2 data-fittext="1" data-fittext-max="14">Data Tidak Ditemukan</h2>
+      </ion-item>
+    </ion-list>
+    <ion-list style="padding:10px"></ion-list>
   </ion-content>
 </ion-view>

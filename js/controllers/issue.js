@@ -26,7 +26,8 @@ angular.module('starter')
             })
             .finally(function()
             {
-                $ionicLoading.show({template: 'Loading...',duration: 500}); 
+                $ionicLoading.show({template: 'Loading...',duration: 500});
+                $scope.$broadcast('scroll.refreshComplete'); 
             });
         });
     }

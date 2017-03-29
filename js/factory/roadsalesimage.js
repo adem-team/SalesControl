@@ -10,10 +10,19 @@ angular.module('starter')
         $http.get(url)
         .success(function(data,status,headers,config) 
         {
-            deferred.resolve(data.Roadsalesimage);
+            if(angular.isDefined(data.statusCode))
+            {
+                deferred.resolve([]);
+            }
+            else
+            {
+                deferred.resolve(data.Roadsalesimage);   
+            }
+            
         })
         .error(function(err,status)
         {
+            console.log(err);
             if (status === 404)
             {
                 deferred.resolve([]);

@@ -1,5 +1,5 @@
 angular.module('starter')
-.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) 
+.config(function($stateProvider,$urlRouterProvider,$ionicConfigProvider) 
 {
     $stateProvider.state('tab.charts', 
     {
@@ -35,6 +35,30 @@ angular.module('starter')
               {
                   templateUrl: "templates/charts/expired-charts.html",
                   controller:'ChartExpiredCtrl'
+              }
+          }
+    });
+    $stateProvider.state('tab.charts.gudangstock', 
+    {
+          url: "/gudangstock",
+          views: 
+          {
+              'gudangstock-charts': 
+              {
+                  templateUrl: "templates/charts/gudangstock-charts.html",
+                  controller:'ChartGudangStockCtrl'
+              }
+          }
+    });
+    $stateProvider.state('tab.charts.salespo', 
+    {
+          url: "/salespo",
+          views: 
+          {
+              'salespo-charts': 
+              {
+                  templateUrl: "templates/charts/salespo-charts.html",
+                  controller:'ChartSalesPOCtrl'
               }
           }
     });

@@ -1,10 +1,11 @@
 <ion-view view-title="VISIT NOTES">
-<ion-nav-bar class="bar-assertive">
-  <ion-nav-buttons side="right">
-    <a class="button button-icon ion-ios-compose-outline" ng-click="OpenModalNew()" ng-show="ShowModalNew"></a>
-  </ion-nav-buttons>
-</ion-nav-bar>
-  <ion-content class="has-header has-footer" padding="true">
+  <ion-nav-bar class="bar-assertive">
+    <ion-nav-buttons side="right">
+      <a class="button button-icon ion-ios-compose-outline" ng-click="OpenModalNew()" ng-show="ShowModalNew"></a>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+  <ion-content class="padding">
+  <ion-refresher pulling-text="" on-refresh="onSearchChange()"></ion-refresher>
     <form method="post" novalidate>
       <div>
           <label class="item item-input">
@@ -16,34 +17,47 @@
           <label class="item item-input">
             <span class="input-label">KAM</span>
             <select ng-model="searchText" ng-options="item|uppercase for item in selectitem">
-              <option value="" selected>Pilih User</option>
+              <option value="" selected>Pilih Semua</option>
               <!-- <option ng-repeat="item in selectitem" value="{{item}}">{{item|uppercase}}</option> -->
             </select>
           </label>
       </div>
     </form>
-    <ion-list show-Delete = "!data.showDelete" show-Reorder = "!data.showReorder">
-        <ion-item class="item-remove-animate item-icon-right" ng-repeat="item in datas | orderBy:'-CREATED_AT' | filter:{ username: searchText||undefined }" type="item-text-wrap" >
-            <h2 data-fittext="1" data-fittext-max="10">{{item.JUDUL|uppercase}}</h2>
-            <h2 data-fittext="1" data-fittext-max="10">{{item.CUSTOMER|uppercase}}</h2>
-            <h2 data-fittext="1" data-fittext-max="10">{{item.CASE_NM|uppercase}}</h2>
-            <p>{{item.CREATED_AT}}</p>
-            <p>{{item.username}}</p>
-            <p >DESKRIPSI:</p>
-            <p ng-bind-html="item.CASE_NOTE">
+    <section id="cd-timeline" class="cd-container" ng-if="datas.length > 0">
+      <div ng-repeat="item in datas | orderBy:'-CREATED_AT' | filter:{ username: searchText||undefined }">
+        <div class="cd-timeline-block">
+          <div class="cd-timeline-picture dark" ng-click="OpenModalViewOrEdit(item)">
+            <ionic-letter-avatar data="{{item.username|uppercase}}" charcount="2"></ionic-letter-avatar>
+          </div>
+          <div class="cd-timeline-content dark" >
+            <h5 class="marginBottom0 marginTop0">{{item.JUDUL|uppercase}}</h5>
+            <h7 class="marginBottom0 marginTop0" data-fittext="1" data-fittext-max="10">
+              {{item.CUSTOMER|uppercase}} On {{item.CREATED_AT}}
+            </h7>
+            <h6 class="marginBottom0 marginTop0" data-fittext="1" data-fittext-max="8" >{{item.CASE_NM|uppercase}}</h6>
+            <p class="timelineText" align="justify">
+              {{item.CASE_NOTE}}
             </p>
-            <ion-delete-button class="{{item.ICON_CLASS}}" ng-click="OpenModalViewOrEdit(item)">
-            </ion-delete-button>
-<!--             <ion-reorder-button class="ion-arrow-right-a" ng-click="itemparams(item)" ui-sref="tab.visit-detail({detail:item.ROAD_D})">
-            </ion-reorder-button> -->
-            <ion-reorder-button class="ion-arrow-right-a" ng-click="itemparams(item)">
-            </ion-reorder-button>
+            <div class="button-bar bar-dark">
+              <button class="button button-stable button-clear button-block  icon ion-videocamera" ng-click="itemparams(item)" ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="cd-timeline-block">
+          <div class="cd-timeline-picture dark">
+            <ionic-letter-avatar data="X" charcount="3"></ionic-letter-avatar>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="cd-timeline" class="cd-container" ng-if="datas.length < 1">
+      <ion-list>
+        <ion-item class="item-icon-right calm-bg" type="item-text-wrap">
+          <h2 data-fittext="1" data-fittext-max="14">BELUM ADA VISIT ROAD</h2>
         </ion-item>
-    </ion-list>
-    <ion-list ng-if="datas.length < 1">
-      <ion-item class="item-remove-animate item-icon-right calm-bg" type="item-text-wrap">
-        <h2 data-fittext="1" data-fittext-max="14">TIDAK ADA AKTIFITAS</h2>
-      </ion-item>
-    </ion-list>
+      </ion-list>
+    </section>
   </ion-content>
 </ion-view>

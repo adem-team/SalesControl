@@ -1,0 +1,32 @@
+<ion-view view-title="PROMO">
+  <ion-content padding="true" class="has-header has-footer">
+        <ion-refresher pulling-text="" on-refresh="onSearchChange()"></ion-refresher>
+        <label class="item item-input">
+          <i class="icon ion-search placeholder-icon"></i>
+          <input type="search" placeholder="Search" ng-model="searchtext">
+        </label>
+        <div class="row" style="text-align:center;"></div>
+        <ion-list ng-repeat="item in promos | orderBy:'-CREATE_AT' | filter:searchtext">
+          <ion-item  class="item item-text-wrap item-icon-left-promo item-avatar-promo box-shadow" on-double-tap="onDoubleTap(item)">
+              <div style="cursor:pointer">
+                <ionic-letter-avatar data="{{item.CUST_NM|uppercase}}" charcount="2" ></ionic-letter-avatar>
+              </div>
+              <h2>{{item.CUST_NM}}</h2>
+              <p align="justify">{{item.PROMO}}</p>
+          </ion-item>
+          <div class="ribbon"><span>{{converdate(item.TGL_START)}}</span></div>
+          <div class="ribbon-down"><span>{{converdate(item.TGL_END)}}</span></div>
+        </ion-list>
+        <div class="row" style="text-align:center;"></div>
+        <ion-list style="padding:10px"></ion-list>
+        <ion-list ng-if="actionmemos.length < 1">
+          <ion-item class="item-icon-right calm-bg" type="item-text-wrap">
+            <h2 data-fittext="1" data-fittext-max="14">TIDAK ADA AKTIFITAS</h2>
+          </ion-item>
+        </ion-list>
+        
+  </ion-content>
+<!--   <button class="button button-float" ng-click="ambilgambar()">
+    <i class="icon ion-plus"></i>
+  </button> -->
+</ion-view>

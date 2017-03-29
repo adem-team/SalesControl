@@ -1,0 +1,23 @@
+<ion-view view-title="VISIT DETAIL">
+  <ion-content>
+
+    <div class="row" ng-repeat="(keys,items) in images" style="border-top: 1px solid #999;" ng-if="datagambar.USER_ID != profile.id || tanggalsekarang != tglgambarheader">
+      <div class="col col-50 " ng-repeat="(key,item) in items" style="padding:1px;border-right:1px solid #999">
+          <div class="item item-images" style="border-width: 0px; border-style: none;">
+          <img  data-ng-src="{{item.IMGBASE64}}" width="100%" ng-click="showImages($index)"/>
+          </div>
+      </div>
+    </div>
+
+    <div class="row" ng-repeat="(keys,items) in images" style="border-top: 1px solid #999;" ng-if="tanggalsekarang == tglgambarheader && datagambar.USER_ID == profile.id">
+      <div class="col col-50 " ng-repeat="(key,item) in items" style="padding:1px;border-right:1px solid #999" ng-click="ambilgambar(keys,key)">
+          <div class="item item-images" style="border-width: 0px; border-style: none;">
+          <img  data-ng-src="{{item.IMGBASE64}}" width="100%" />
+          </div>
+      </div>
+    </div>
+  </ion-content>
+  <button class="button button-float">
+        <i class="icon ion-plus"></i>
+      </button>
+</ion-view>

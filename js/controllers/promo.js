@@ -1,46 +1,105 @@
 angular.module('starter')
-.controller('PromoCtrl', function($scope,$location,$ionicLoading,uiCalendarConfig) 
+.controller('PromoActiveCtrl', function($scope,$location,$ionicLoading,$ionicModal,$filter,PromoFac) 
 {
-    $scope.events  = [];
-    $scope.uiConfig = 
+    $ionicLoading.show
+    ({
+      template: 'Loading...'
+    })
+    .then(function()
     {
-      calendar:
-      {
-        height: 500,
-        editable: false,
-        header:
+        var statuspromo = 0;
+        PromoFac.GetPromos(statuspromo)
+        .then(function(response)
         {
-          left: 'title',
-          center: '',
-          right: 'today prev,next'
-        },
+            $scope.promos = response;     
+            
+        })
+        .finally(function()
+        {
+            $ionicLoading.show({template: 'Loading...',duration: 500});
+            $scope.$broadcast('scroll.refreshComplete');
+        });
+    });
+    $scope.onDoubleTap = function(item)
+    {
+        $ionicModal.fromTemplateUrl('templates/promo/promo-popover.html', 
+        {
+            scope: $scope
+        })
+        .then(function(modal) 
+        {
+            $ionicLoading.show({template: 'Loading...',duration: 300});
+            $scope.modal            = modal;
+            $scope.item             = item;
 
-        eventClick: $scope.alertOnEventClick,
-        eventDrop: $scope.alertOnDrop,
-        eventResize: $scope.alertOnResize,
-        eventRender: $scope.eventRender
-      }
+            console.log(item);
+            $scope.modal.show();
+            
+        });
+    }
+    $scope.closeModal = function() 
+    {
+        $scope.modal.remove();
     };
-    var data ={};
-    data.title = 'Buy 1-1';
-    data.start = new Date();
-    data.allDay =true;
-    data.url ="#/tab/promo/" + 1;
-    data.color = '#000039';
 
-    $scope.events.push(data);
-    var data ={};
-    data.title = 'Buy 1-2';
-    data.start = new Date();
-    data.allDay =true;
-    data.url ="#/tab/promo/" + 2;
-    data.color = '#ff4b39';
-
-    $scope.events.push(data); 
-    $scope.eventSources = [$scope.events];
+    $scope.converdate = function(item)
+    {
+        var result = $filter('date')(new Date(item),'dd-MM-yyyy');
+        return result;
+    }
 })
 
-.controller('PromoDetailCtrl', function($scope,$stateParams,$location,$ionicLoading,uiCalendarConfig) 
+.controller('PromoFinishCtrl', function($scope,$location,$filter,$ionicLoading,$ionicModal,PromoFac) 
+{
+    $ionicLoading.show
+    ({
+      template: 'Loading...'
+    })
+    .then(function()
+    {
+        var statuspromo = 1;
+        PromoFac.GetPromos(statuspromo)
+        .then(function(response)
+        {
+            $scope.promos = response;     
+            
+        })
+        .finally(function()
+        {
+            $ionicLoading.show({template: 'Loading...',duration: 500});
+            $scope.$broadcast('scroll.refreshComplete');
+        });
+    });
+    $scope.onDoubleTap = function(item)
+    {
+        $ionicModal.fromTemplateUrl('templates/promo/promo-popover.html', 
+        {
+            scope: $scope
+        })
+        .then(function(modal) 
+        {
+            $ionicLoading.show({template: 'Loading...',duration: 300});
+            $scope.modal            = modal;
+            $scope.item             = item;
+
+            console.log(item);
+            $scope.modal.show();
+            
+        });
+    }
+    $scope.closeModal = function() 
+    {
+        $scope.modal.remove();
+    };
+
+    $scope.converdate = function(item)
+    {
+        var result = $filter('date')(new Date(item),'dd-MM-yyyy');
+        return result;
+    }
+})
+
+.controller('PromoDetailCtrl', function($scope,$stateParams,$location,$ionicLoading) 
 {
     console.log($stateParams.detail);
 });

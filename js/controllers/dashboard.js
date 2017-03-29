@@ -31,8 +31,8 @@ angular.module('starter')
 			DashboardFac.GetDashboardChart(tglstart)
 			.then(function(response)
 			{
-				
-				$scope.datas = response;
+                $scope.datas = UtilService.ArrayChunk(response,2);
+                console.log($scope.datas);
 			})
             .finally(function()
             {
@@ -56,9 +56,17 @@ angular.module('starter')
         }
     }
 
-    $scope.gotodashdetail = function(key)
+    $scope.gotodashdetail = function(key,status)
     {
-        $state.go('tab.dash-call', {'call':key});
+        if(status)
+        {
+            $state.go('tab.dash-call', {'call':key});  
+        }
+        else
+        {
+            alert("Tidak Memiliki Detail");
+        }
+        
     }
 })
 

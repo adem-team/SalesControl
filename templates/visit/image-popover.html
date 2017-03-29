@@ -1,0 +1,16 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-assertive">
+    <h1 class="title">VISIT IMAGES</h1>
+    <button class="button button-clear left" ng-click="closeModal()"><i class="icon ion-ios-close-outline"></i></button>
+  </ion-header-bar>
+
+  <ion-content class="padding">
+		<div class="modal image-modal transparent">
+		    <ion-slide-box on-slide-changed="slideChanged(index)" show-pager="true" active-slide="activeSlide">
+		        <ion-slide ng-repeat="item in image">
+		            <img ng-src="{{item.IMGBASE64}}" class="fullscreen-image"/>
+		        </ion-slide>
+		    </ion-slide-box>
+		</div>
+  </ion-content>
+</ion-modal-view>

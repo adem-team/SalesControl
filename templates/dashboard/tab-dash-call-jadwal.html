@@ -1,7 +1,7 @@
 <ion-view view-title="KUNJUNGAN {{tanggalview}}">
   <ion-content class="padding">
     <ion-list>
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="item in customers | orderBy:'CHECKIN_TIME'" type="item-text-wrap" href="#/tab/salesman/{{item.USER_ID}}/{{item.CUST_KD}}">
+      <ion-item class="item-avatar item-icon-right" ng-repeat="item in customers | orderBy:'CHECKIN_TIME'" type="item-text-wrap" href="#/tab/salesman/{{item.USER_ID}}/{{item.CUST_KD}}">
         <img ng-src="img/C.png">
         <h2>{{item.CUST_NM}}</h2>
         <p>{{item.CHECKIN_TIME}}</p>

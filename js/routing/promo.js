@@ -3,25 +3,38 @@ angular.module('starter')
 {
     $stateProvider.state('tab.promo', 
     {
-        url: '/promo',
+          url: '/promo',
+          abstract: true,
+          views: 
+          {
+            'tab-promo': 
+            {
+              templateUrl: 'templates/promo/main.html'
+            }
+          }
+    });
+
+    $stateProvider.state('tab.promo.running', 
+    {
+        url: '/running',
         views: 
         {
-          'tab-promo': 
+          'promo-running': 
           {
-            templateUrl: 'templates/promo/index.html',
-            controller: 'PromoCtrl'
+            templateUrl: 'templates/promo/running.html',
+            controller: 'PromoActiveCtrl'
           }
         }
     });
-    $stateProvider.state('tab.promo-detail', 
+    $stateProvider.state('tab.promo.finish', 
     {
-        url: '/promo/:detail',
+        url: '/finish',
         views: 
         {
-          'tab-promo': 
+          'promo-finish': 
           {
-            templateUrl: 'templates/promo/view.html',
-            controller: 'PromoDetailCtrl'
+            templateUrl: 'templates/promo/finish.html',
+            controller: 'PromoFinishCtrl'
           }
         }
     });

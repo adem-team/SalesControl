@@ -44,22 +44,45 @@ angular.module('starter')
               'noo-admin': 
               {
                   templateUrl: "templates/noo/noo-admin.html",
-                  controller:'NooNewCtrl'
+                  controller:'NooAdminCtrl'
               }
           },
     });
-    $stateProvider.state('tab.noo.nka', 
+
+    $stateProvider.state('tab.noo.admin-detail', 
     {
-          url: "/nka",
+          url: "/admindetail/:id",
+          views: {
+              'noo-admin': {
+                  templateUrl: "templates/noo/noo-new-detail.html",
+                  controller:'NooAdminDetailCtrl'
+              }
+          }
+    });
+
+    $stateProvider.state('tab.noo.kam', 
+    {
+          url: "/kam",
           views: 
           {
-              'noo-nka': 
+              'noo-kam': 
               {
-                  templateUrl: "templates/noo/noo-nka.html",
-                  controller:'NooNewCtrl'
+                  templateUrl: "templates/noo/noo-kam.html",
+                  controller:'NooKamCtrl'
               }
           },
     });
+    $stateProvider.state('tab.noo.kam-detail', 
+    {
+          url: "/kamdetail/:id",
+          views: {
+              'noo-kam': {
+                  templateUrl: "templates/noo/noo-new-detail.html",
+                  controller:'NooKamDetailCtrl'
+              }
+          }
+    });
+
     $stateProvider.state('tab.noo.accounting', 
     {
           url: "/accounting",
@@ -68,8 +91,18 @@ angular.module('starter')
               'noo-accounting': 
               {
                   templateUrl: "templates/noo/noo-accounting.html",
-                  controller:'NooNewCtrl'
+                  controller:'NooAccountingCtrl'
               }
           },
+    });
+    $stateProvider.state('tab.noo.accounting-detail', 
+    {
+          url: "/accountingdetail/:id",
+          views: {
+              'noo-accounting': {
+                  templateUrl: "templates/noo/noo-accounting-detail.html",
+                  controller:'NooAccountingDetailCtrl'
+              }
+          }
     });
 });

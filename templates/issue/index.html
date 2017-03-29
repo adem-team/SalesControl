@@ -1,36 +1,44 @@
 <ion-view view-title="ACTION VISIT MEMO">
-  <ion-content class="padding">
+  <ion-content padding="true">
+        <ion-refresher pulling-text="" on-refresh="onSearchChange()"></ion-refresher>
         <form method="post" novalidate>
-          <div class="button-bar">
+        <div class ="row-tanggal" style="flex-wrap: wrap;">
+           <div class ="col-40">
               <label class="item item-input">
                 <span class="input-label">Start</span>
                 <input type="date" name="valuestart" ng-model="exampleForm.valuestart" required>
               </label>
-              <label class="item item-input">
-                <span class="input-label">End</span>
-                <input type="date" name="valueend" ng-model="exampleForm.valueend" required>
-              </label>
+           </div>
+           <div class ="col-40">
+            <label class="item item-input">
+              <span class="input-label">End</span>
+              <input type="date" name="valueend" ng-model="exampleForm.valueend" required>
+            </label>
+           </div>
+           <div class="col-20">
               <label class="item item-input" ng-click="SubmitForm(exampleForm)">
-                <span class="input-label" style="cursor:pointer">
+                <span class="input-label  button-assertive" style="cursor:pointer" align="center">
                   Submit
                 </span>
               </label>
-          </div>
+           </div>
+        </div>
         </form>
+        <div class="row" style="text-align:center;"></div>
         <ion-list>
-            <div class="card">
-                <a  ng-repeat="item in actionmemos | orderBy:'-CREATE_AT' " class="item item-avatar item-icon-right">
-                    <img data-ng-src="data:image/jpeg;base64,{{item.IMG_BASE64}}">
-                    <h2>{{item.NM_CUSTOMER}}</h2>
-                    <p>{{item.ISI_MESSAGES}}</p>
-                    <p>{{item.NM_FIRST}}</p>
-                    <p>{{item.CREATE_AT}}</p>
-                    <!-- <i class="icon ion-chatbubble muted"></i> -->
-                </a>
-            </div>
+          <ion-item ng-repeat="item in actionmemos | orderBy:'-CREATE_AT' " class="item item-text-wrap item-icon-left-x item-avatarx box-shadow">
+              <div style="cursor:pointer">
+                <ionic-letter-avatar data="{{item.NM_FIRST|uppercase}}" charcount="2"></ionic-letter-avatar>
+              </div>
+              <h2>{{item.NM_CUSTOMER}}</h2>
+              <p align="justify">{{item.ISI_MESSAGES}}</p>
+              <p>{{item.NM_FIRST}}</p>
+              <p>{{item.CREATE_AT}}</p>
+          </ion-item>
         </ion-list>
+        <div class="row" style="text-align:center;"></div>
         <ion-list ng-if="actionmemos.length < 1">
-          <ion-item class="item-remove-animate item-icon-right calm-bg" type="item-text-wrap">
+          <ion-item class="item-icon-right calm-bg" type="item-text-wrap">
             <h2 data-fittext="1" data-fittext-max="14">TIDAK ADA AKTIFITAS</h2>
           </ion-item>
         </ion-list>

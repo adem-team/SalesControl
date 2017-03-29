@@ -1,0 +1,59 @@
+<ion-view view-title="PROMO POP OVER">
+  <ion-header-bar class="bar bar-header bar-assertive">
+    <h1 class="title">PROMO POP-OVER</h1>
+    <button class="button button-clear left" ng-click="closeModal()"><i class="icon ion-ios-close-outline"></i></button>
+  </ion-header-bar>
+  <ion-content has-footer="true" has-header="true" has-tabs="true" padding="true">
+    <ion-refresher pulling-text="" on-refresh="onSearchChange()"></ion-refresher>
+    <div class="card list">
+        <div class="row item item-text-wrap">
+          <div class="col col 50">CUST NM</div>
+            <div class="col col 50">
+                  {{item.CUST_NM}}
+            </div>
+        </div>
+
+        <div class="row item item-text-wrap">
+          <div class="col col 50">PROMO</div>
+          <div class="col col 50"><p align="left">{{item.PROMO}}</p></div>
+        </div>
+
+        <div class="row item item-text-wrap">
+          <div class="col col 50">KOMPENSASI</div>
+          <div class="col col 50"><p align="left">{{item.KOMPENSASI}}</p></div>
+        </div>
+
+        <div class="row item item-text-wrap">
+          <div class="col col 50">MEKANISME</div>
+          <div class="col col 50"><p align="left">{{item.MEKANISME}}</p></div>
+        </div>
+
+        <div class="row item item-text-wrap">
+          <div class="col col 50">TGL START</div>
+          <div class="col col 50"><p align="left">{{converdate(item.TGL_START)}}</p></div>
+        </div>
+
+        <div class="row item item-text-wrap">
+          <div class="col col 50">TGL END</div>
+          <div class="col col 50"><p align="left">{{converdate(item.TGL_END)}}</p></div>
+        </div>
+
+        <div class="row item item-text-wrap">
+          <div class="col col 50">KETERANGAN</div>
+            <div class="col col 50">
+                  {{item.KETERANGAN}}
+            </div>
+        </div>
+
+        <div class="row item item-text-wrap">
+          <div class="col col 50">STATUS</div>
+            <div class="col col 50" ng-if="item.STATUS == 0">
+                RUNNING
+            </div>
+            <div class="col col 50" ng-if="item.STATUS == 1">
+                FINISH
+            </div>
+        </div> 
+    </div>
+
+</ion-view>

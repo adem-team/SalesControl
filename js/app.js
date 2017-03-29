@@ -1,4 +1,4 @@
-angular.module('starter', ['ngCordova','ionic','ngFitText','ng-fusioncharts','ui.calendar'])
+angular.module('starter', ['ngCordova','ionic','ngFitText','ng-fusioncharts','ui.calendar','ionic-letter-avatar','ionicLetterAvatarSelector','ion-gallery'])
 .run(function($ionicPlatform,$rootScope) 
 {
     $ionicPlatform.ready(function() 
@@ -40,4 +40,16 @@ angular.module('starter', ['ngCordova','ionic','ngFitText','ng-fusioncharts','ui
               };
         return options;
     }
+})
+
+.config(function($ionicLetterAvatarSelectorConfigProvider) 
+{
+    $ionicLetterAvatarSelectorConfigProvider.setBackground('calm');
+    $ionicLetterAvatarSelectorConfigProvider.setColor('light');
+    $ionicLetterAvatarSelectorConfigProvider.setBorder('1px solid black');    
+    $ionicLetterAvatarSelectorConfigProvider.setFinishOnStateChange(true);
+    $ionicLetterAvatarSelectorConfigProvider.setLetterNumber(2);
+    $ionicLetterAvatarSelectorConfigProvider.setSelectionAndroid(false);
+    $ionicLetterAvatarSelectorConfigProvider.setSelectionIos(true);
+    $ionicLetterAvatarSelectorConfigProvider.setSelectionColor('#e42112');
 });

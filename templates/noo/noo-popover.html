@@ -1,0 +1,19 @@
+<ion-view view-title="NEW NOO">
+  <ion-header-bar class="bar bar-header bar-assertive">
+    <h1 class="title">NEW SALES ROAD</h1>
+    <button class="button button-clear left" ng-click="closeModal()"><i class="icon ion-ios-close-outline"></i></button>
+  </ion-header-bar>
+  <ion-content has-footer="true" has-header="true" has-tabs="true" padding="true">
+    <ion-refresher pulling-text="" on-refresh="onSearchChange()"></ion-refresher>
+    <ion-list>
+        <ion-item class="item-text-wrap">
+            <h2>{{item.CUST_NM|uppercase}}</h2>
+            <p>{{item.CUST_KD}}</p>
+            <p>TELP: {{item.TLP1}}</p>
+            <p>By: {{item.CREATED_BY|capitalize}}</p>
+            <p>{{item.CREATED_AT}}</p>
+            <p>{{item.NOTE|capitalize}}</p>
+        </ion-item>
+    </ion-list>
+
+</ion-view>

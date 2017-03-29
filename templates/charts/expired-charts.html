@@ -1,13 +1,19 @@
 <ion-view view-title="EXP LAYER-GEO">
   <ion-content class="has-header has-footer" padding="true">
-  		  <div class="button-bar">
-          	<label class="item item-input">
-      			  <span class="input-label">Month</span>
-      			  <input type="month" name="input" ng-model="example.value" ng-change="onSearchChange()">
-      			</label>
+    <div style="text-align:center;" >
+      <form method="post" novalidate>
+        <div>
+            <label class="item item-input">
+              <span class="input-label">Month</span>
+              <input type="month" name="input" ng-model="example.value" ng-change="onSearchChange()">
+            </label>
         </div>
-        <div id="chart-expiredgeomonth"></div>
-        <div id="chart-totalexpired"></div>
-        <div id="chart-expiredallyear"></div>
+      </form>
+    </div>
+    <div class="row" style="text-align:center;" >
+    </div>
+    <div id="chart-expiredgeomonth"></div>
+    <div id="chart-totalexpired"></div>
+    <div id="chart-expiredallyear"></div>
   </ion-content>
 </ion-view>
