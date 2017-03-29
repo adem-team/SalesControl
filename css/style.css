@@ -5,3 +5,164 @@
   margin-right: 15px;
   margin-left: -5px;
 }
+
+#login 
+{
+  background: #1c2627 url("../img/login_bg.jpg") no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+
+  .scroll-content 
+  {
+    display: table !important;
+    width: 100% !important;
+    height: 100% !important;
+
+    form 
+    {
+      display: table-cell;
+      vertical-align: middle;
+
+      .header 
+      {
+        padding-bottom: 20px;
+
+        img 
+        {
+          display: block;
+          width: 80%;
+          margin: 0 auto;
+        }
+      }
+
+      .button.button-light.active, .button.button-light.activated 
+      {
+        color: #fff;
+        opacity: inherit;
+      }
+    }
+  }
+
+}
+
+.fullwidth {
+width:100%;
+margin-left:0;
+margin-right:0;
+padding-left:0;
+padding-right:0;
+display:block;
+text-align:center; /*This will result in centering the link text, which is probably what you want -brianjohnsondesign.com*/
+}
+
+html, body, 
+.scroll /* because the <ion-content> content is placed inside a div.scroll */
+{
+  height: 100%;
+}
+
+.container {
+  min-height: 60%;
+  display: flex;
+  flex-direction: column;  
+}
+
+.container > .cell-row {
+  flex: 1;
+  display: flex;
+}
+.cell-row > div {
+  flex: 1;
+  flex-grow: 1;
+  color: #fff;
+  
+  /* Flex for these containers (cells) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.container i[class^="ion-"] {
+  font-size: 90px;
+}
+
+
+
+
+
+/* doesn't matter */
+/*.bar-header {
+  background-color: #241D54 !important;
+  border-bottom: 0 !important;
+}
+.bar-header h1 {
+  color: #fff !important;
+  font-size: 20px !important;
+}*/
+
+.cell-row-1 {
+  background-color: #000;
+}
+.cell-row-2 {
+  background-color: #ccc;
+}
+.cell-row-3 {
+  background-color: #eee;
+}
+
+.cell-1 {
+  background-color: #d71149;
+}
+.cell-2 {
+  background-color: #2AA5AD;
+}
+.cell-3 {
+  background-color: #03b2e7;
+}
+.cell-4 {
+  background-color: #B3D0FC;
+}
+.cell-5 {
+  background-color: #73A7F9;
+}
+.cell-6 {
+  background-color: #2AA5AD;
+}
+.cell-7 {
+  background-color: #A0C5FA;
+}
+.cell-8 {
+  background-color: #03b2e7;
+}
+
+.profile-item {
+  text-align: center;
+}
+
+.profile-picture {
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  padding: 3px;
+  border-radius: 100%;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  margin: 0 auto;
+  width: 128px;
+  height: 128px;
+  overflow: hidden;
+}
+
+.profile-picture img {
+  width: 128px;
+  border-radius: 100%;
+}
+
+.profile-name {
+  padding-top: 20px;
+  font-size: x-large !important;
+  font-weight: bold !important;
+  text-transform: capitalize;
+}

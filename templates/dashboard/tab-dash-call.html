@@ -1,18 +1,15 @@
 <ion-view view-title="{{params}} {{tanggalview}}">
   <ion-content class="padding">
-    <div class="row" style="text-align:center;" ng-repeat="items in datas">
-      <div class="col col-50" ng-repeat="item in items">
-        <div class="item item-divider" >
-          {{item.NM_FIRST}} 
+  <ion-refresher pulling-text="" on-refresh="doRefresh()"></ion-refresher>
+    <div class="container">
+        <div class="cell-row cell-row-{{$index + 1}}" ng-repeat="items in datas" >
+          <div class="cell-{{($parent.$index * items.length)+($index+1)}}" ng-repeat="item in items">
+            <div>
+              <div><h2>{{item.NILAI}}</h2></div>
+              <div>{{item.NM_FIRST}}</div>
+            </div>
+          </div>
         </div>
-        <div class="item">
-          <h3>{{item.AC}}/{{item.TOTAL}}</h3>
-        </div>
-        <!-- <div class="item item-divider">
-          <h1><a href="#/tab/dash/customer/{{params}}/{{item.USERNAME}}"><i class="icon ion-android-arrow-forward"></i></a></h1>
-        </div> -->
       </div>
-    </div>
-
   </ion-content>
 </ion-view>

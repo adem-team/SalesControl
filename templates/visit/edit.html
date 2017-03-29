@@ -1,0 +1,32 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-assertive">
+    <h1 class="title">EDIT SALES ROAD</h1>
+    <button class="button button-clear left" ng-click="closeModal()"><i class="icon ion-ios-close-outline"></i></button>
+  </ion-header-bar>
+
+  <ion-content class="padding">
+  <form name="customerForm" ng-submit="updateForm(roadsalesman)" method="post" novalidate>
+    <div class = "list">
+          
+
+        <label class="item item-input item-floating-label">
+         <span class="input-label">Judul Road Aktifitas</span>
+          <input type="text" placeholder="Judul Road Aktifitas" ng-model="roadsalesman.JUDUL">
+        </label>
+        <label class="item item-input item-floating-label">
+         <span class="input-label">Destination</span>
+          <input type="text" placeholder="Isi Tujuan Kemana Anda Pergi" ng-model="roadsalesman.CUSTOMER">
+        </label>
+        <label class="item item-input item-floating-label">
+         <span class="input-label">Deskripsi</span>
+          <textarea placeholder="Isi Deskripsi Aktifitas Disini" rows="8" ng-model="roadsalesman.CASE_NOTE"></textarea>
+        </label>
+        <span class="input-label">Type Road</span>
+          <ion-checkbox ng-repeat="item in devList" ng-model="item.checked" ng-checked="item.checked">
+            {{ item.CASE_NAME }}
+          </ion-checkbox>
+    </div>
+    <button type="submit" class="button button-block button-assertive">Save</button>
+  </form>
+  </ion-content>
+</ion-modal-view>

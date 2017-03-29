@@ -5,7 +5,7 @@ angular.module('starter')
     {
         var getUrl          = UtilService.ApiUrl();
         var deferred        = $q.defer();
-        var url             = getUrl + "master/roadsalesheaders/search?TGLSTART="+ tanggalstart + "&TGLEND="+ tanggalend + "&USER_ID=" + USER_ID;
+        var url             = getUrl + "master/roadsalesheaders/search?TGLSTART="+ tanggalstart + "&TGLEND="+ tanggalend;
         $http.get(url)
         .success(function(data,status,headers,config) 
         {
@@ -53,8 +53,32 @@ angular.module('starter')
         return deferred.promise;  
     }
 
+    var UpdateRoadSalesHeader = function(data)
+    {
+        var id                  = data.ROAD_D;
+        var globalurl           = UtilService.ApiUrl();
+        var deferred            = $q.defer();
+        var url                 = globalurl + "master/roadsalesheaders/" + id;
+
+        var result              = UtilService.SerializeObject(data);
+        var serialized          = result.serialized;
+        var config              = result.config;
+
+        $http.put(url,serialized,config)
+        .success(function(data,status,headers,config) 
+        {
+            deferred.resolve(data);
+        })
+        .error(function(err,status)
+        {
+            deferred.reject(err);
+        });
+        return deferred.promise;  
+    }
+
 	return{
             GetRoadSalesHeader:GetRoadSalesHeader,
-            CreateRoadSalesHeader:CreateRoadSalesHeader
+            CreateRoadSalesHeader:CreateRoadSalesHeader,
+            UpdateRoadSalesHeader:UpdateRoadSalesHeader
 		}
 });

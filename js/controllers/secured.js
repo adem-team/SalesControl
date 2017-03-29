@@ -16,14 +16,36 @@ angular.module('starter')
         SecuredFac.Login(username, password)
         .then(function (result) 
         {
-            $state.go('tab.dash', {}, {reload: true});
-            $ionicLoading.hide();
+            console.log(result);
+            if(result == 'username_salah')
+            {
+                var alertPopup = $ionicPopup.alert({
+                  title: 'Login failed!',
+                  template: 'Username Salah!'
+                });
+                alertPopup.then(function(res) 
+                {
+                    if(res)
+                    {
+                       user.username = null;
+                       user.password = null;
+                       focus('focusUsername'); 
+                    }
+                    
+                });
+
+            }
+            else
+            {
+                $state.go('tab.dash', {}, {reload: true});
+            }   
+            
         }, 
         function (err) 
         {          
             if(err == 'password_salah')
             {
-                $scope.users = {password:null};
+                user.password = null;
                 focus('focusPassword');
                 var alertPopup = $ionicPopup.alert({
                   title: 'Login failed!',
@@ -37,8 +59,8 @@ angular.module('starter')
                   title: 'Login failed!',
                   template: 'Username Salah!'
                 });
-                $scope.users.username    = "";
-                $scope.users.password    = "";
+                user.username = null;
+                user.password = null;
                 focus('focusUsername');
             }
             else
@@ -49,13 +71,25 @@ angular.module('starter')
                 });
                 focus('focusUsername');
             }
-            $ionicLoading.hide();
+        })
+        .finally(function()
+        {
+           $ionicLoading.hide(); 
         });
     }
 })
 
 .controller('AccountCtrl', function($window,$scope,$state,$location,$timeout,$ionicLoading,$ionicHistory,StorageService) 
 {
+    $scope.profile  = StorageService.get('profile');
+    if($scope.profile.gambar == 'none')
+    {
+        $scope.profile.gambar = "img/customer.jpg";
+    }
+    else
+    {
+        $scope.profile.gambar = "data:image/png;base64," + $scope.profile.gambar;
+    }
     $scope.logout = function() 
     {
       StorageService.destroy('profile');

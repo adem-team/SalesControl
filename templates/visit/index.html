@@ -1,37 +1,44 @@
 <ion-view view-title="VISIT NOTES">
 <ion-nav-bar class="bar-assertive">
   <ion-nav-buttons side="right">
-    <a class="button button-icon ion-ios-compose-outline" ng-click="openModalMap()"></a>
+    <a class="button button-icon ion-ios-compose-outline" ng-click="OpenModalNew()" ng-show="ShowModalNew"></a>
   </ion-nav-buttons>
 </ion-nav-bar>
   <ion-content class="has-header has-footer" padding="true">
     <form method="post" novalidate>
-      <div class="button-bar">
+      <div>
           <label class="item item-input">
             <span class="input-label">Start</span>
-            <input type="date" name="valuestart" ng-model="exampleForm.valuestart" required>
+            <input type="date" name="valuestart" ng-model="exampleForm.valuestart" ng-change="ChangeDate(exampleForm)" required>
           </label>
-          <label class="item item-input" ng-click="ChangeDate(exampleForm)">
-            <span class="input-label" style="cursor:pointer">
-              Submit
-            </span>
+      </div>
+      <div>
+          <label class="item item-input">
+            <span class="input-label">KAM</span>
+            <select ng-model="searchText" ng-options="item|uppercase for item in selectitem">
+              <option value="" selected>Pilih User</option>
+              <!-- <option ng-repeat="item in selectitem" value="{{item}}">{{item|uppercase}}</option> -->
+            </select>
           </label>
       </div>
     </form>
-
-    <ion-list ng-if="datas.length > 0">
-      <ion-item class="item-remove-animate item-icon-right calm-bg" type="item-text-wrap" 
-          ng-repeat="item in datas | orderBy:'-CREATED_AT' " ng-href="#/tab/visit/{{item.ROAD_D}}">
-        <h2 data-fittext="1" data-fittext-max="14">{{item.JUDUL}}</h2>
-        <h2 data-fittext="1" data-fittext-max="14">{{item.CUSTOMER}}</h2>
-        <h2 data-fittext="1" data-fittext-max="14">{{item.CASE_NM}}</h2>
-        <p>{{item.CREATED_AT}}</p>
-        <p>DESKRIPSI:</p>
-        <p>
-          {{item.CASE_NOTE}}
-        </p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
-      </ion-item>
+    <ion-list show-Delete = "!data.showDelete" show-Reorder = "!data.showReorder">
+        <ion-item class="item-remove-animate item-icon-right" ng-repeat="item in datas | orderBy:'-CREATED_AT' | filter:{ username: searchText||undefined }" type="item-text-wrap" >
+            <h2 data-fittext="1" data-fittext-max="10">{{item.JUDUL|uppercase}}</h2>
+            <h2 data-fittext="1" data-fittext-max="10">{{item.CUSTOMER|uppercase}}</h2>
+            <h2 data-fittext="1" data-fittext-max="10">{{item.CASE_NM|uppercase}}</h2>
+            <p>{{item.CREATED_AT}}</p>
+            <p>{{item.username}}</p>
+            <p >DESKRIPSI:</p>
+            <p ng-bind-html="item.CASE_NOTE">
+            </p>
+            <ion-delete-button class="{{item.ICON_CLASS}}" ng-click="OpenModalViewOrEdit(item)">
+            </ion-delete-button>
+<!--             <ion-reorder-button class="ion-arrow-right-a" ng-click="itemparams(item)" ui-sref="tab.visit-detail({detail:item.ROAD_D})">
+            </ion-reorder-button> -->
+            <ion-reorder-button class="ion-arrow-right-a" ng-click="itemparams(item)">
+            </ion-reorder-button>
+        </ion-item>
     </ion-list>
     <ion-list ng-if="datas.length < 1">
       <ion-item class="item-remove-animate item-icon-right calm-bg" type="item-text-wrap">

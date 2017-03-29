@@ -1,0 +1,37 @@
+<ion-view view-title="Dashboard">
+  <ion-content class="padding">
+    <div>
+      <div class="row" style="text-align:center;" >
+        <div class="col col-100">
+          <form method="post" novalidate>
+            <div>
+                <label class="item item-input">
+                  <input type="date" name="valuestart" ng-model="exampleForm.valuestart" required ng-change="SubmitForm(exampleForm)">
+                </label>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <ion-refresher pulling-text="" on-refresh="onSearchChange()"></ion-refresher>
+    <div ng-repeat="items in datas">
+      <div class="row" style="text-align:center;" >
+        <div class="col col-50" ng-repeat="(key,value) in items" ng-click="gotodashdetail(key)">
+          <div class="item item-divider">
+            {{key}} 
+          </div>
+          <div class="item">
+            <h3>{{value}}</h3>
+          </div>
+          <div class="item item-divider">
+            <!-- <h1><a href="#/tab/dash/customer/{{key}}"><i class="icon ion-android-arrow-forward"></i></a></h1> -->
+            <h1><i class="icon ion-android-arrow-forward"></i></h1>
+          </div>
+        </div>      
+      </div>
+      <div class="row" style="text-align:center;" >
+        <div class="itemitem-divider"></div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

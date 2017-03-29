@@ -1,9 +1,9 @@
-<ion-view view-title="NEW NOO">
+<ion-view view-title="NEW NOO {{customers.length}}">
   <ion-content class="has-header has-footer" padding="true">
       <ion-list show-Delete = "!data.showDelete" show-Reorder = "!data.showReorder">
           <ion-item class="item-icon-right"  type="item-text-wrap" ng-repeat="item in customers" >
               <img ng-src="img/C.png" class="thumbnail-custom">
-              <h4>{{item.CUST_NM|uppercase}}<br> 
+              <h4>{{$index + 1}}.{{item.CUST_NM|uppercase}}<br> 
                   <font size="2" color="gray" >{{item.CUST_KD}}</font></br>
                   <font size="2" color="gray" >TELP: {{item.TLP1}}</font></br>
                   <font size="2" color="gray" >By: {{item.CREATED_BY|uppercase}}</font></br> 

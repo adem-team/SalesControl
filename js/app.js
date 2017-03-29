@@ -1,4 +1,4 @@
-angular.module('starter', ['ngCordova','ionic','ngFitText','ng-fusioncharts'])
+angular.module('starter', ['ngCordova','ionic','ngFitText','ng-fusioncharts','ui.calendar'])
 .run(function($ionicPlatform,$rootScope) 
 {
     $ionicPlatform.ready(function() 

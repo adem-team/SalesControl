@@ -1,7 +1,22 @@
 angular.module('starter')
-.controller('DashCtrl', function($scope,$filter,$location,$state,$ionicLoading,DashboardFac,UtilService,StorageService) 
+.controller('DashCtrl', function($scope,$filter,$cordovaBadge,$location,$state,$ionicLoading,DashboardFac,UtilService,StorageService) 
 {
-	$scope.exampleForm  = {valuestart:new Date()};
+    document.addEventListener("deviceready", function () 
+    {
+        // alert();
+        $cordovaBadge.hasPermission()
+        .then(function(result) 
+        {
+            $cordovaBadge.set(5);
+            // alert();
+        }, 
+        function(error) 
+        {
+            // alert(error);
+        });
+    });
+
+    $scope.exampleForm  = {valuestart:new Date()};
 	$scope.onSearchChange = function()
     {
         StorageService.set('tanggalsekarang',$scope.exampleForm.valuestart);
@@ -16,9 +31,14 @@ angular.module('starter')
 			DashboardFac.GetDashboardChart(tglstart)
 			.then(function(response)
 			{
-				$ionicLoading.show({template: 'Loading...',duration: 500});
+				
 				$scope.datas = response;
-			});
+			})
+            .finally(function()
+            {
+                $ionicLoading.show({template: 'Loading...',duration: 500});
+                $scope.$broadcast('scroll.refreshComplete');
+            });
 		});
     }
     $scope.onSearchChange();
@@ -48,24 +68,28 @@ angular.module('starter')
 	var tanggalaction 	= StorageService.get('tanggalsekarang');
 	$scope.tanggalview  = $filter('date')(tanggalaction,'dd-MM-yyyy');
 	var tanggalplan 	= $filter('date')(tanggalaction,'yyyy-MM-dd');
-    $ionicLoading.show
-    ({
-      template: 'Loading...'
-    })
-    .then(function()
+    $scope.doRefresh    = function()
     {
-    	DashboardFac.GetCustomerCall(tanggalplan,$scope.params)
-    	.then(function(response)
-    	{
-    		var result = UtilService.ArrayChunk(response.CustomerCall,2);
-    		$scope.datas = result;
-    	})
-        .finally(function()
+        $ionicLoading.show
+        ({
+          template: 'Loading...'
+        })
+        .then(function()
         {
-            $ionicLoading.show({template: 'Loading...',duration: 500}); 
+        	DashboardFac.GetCustomerCall(tanggalplan,$scope.params)
+        	.then(function(response)
+        	{
+        		var result = UtilService.ArrayChunk(response.CustomerCall,2);
+        		$scope.datas = result;
+        	})
+            .finally(function()
+            {
+                $ionicLoading.show({template: 'Loading...',duration: 500});
+                $scope.$broadcast('scroll.refreshComplete'); 
+            });
         });
-    });
-
+    }
+    $scope.doRefresh();
 })
 
 .controller('CustomerCallJadwalCtrl', function($scope,$filter,$stateParams,$ionicLoading,SalesTrackFac,UtilService,StorageService) 

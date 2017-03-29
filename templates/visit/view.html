@@ -1,0 +1,27 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-assertive">
+    <h1 class="title">EDIT SALES ROAD</h1>
+    <button class="button button-clear left" ng-click="CloseModelView()"><i class="icon ion-ios-close-outline"></i></button>
+  </ion-header-bar>
+
+  <ion-content class="padding">
+    <div class = "list">
+        <label class="item item-input item-floating-label">
+         <span class="input-label">Judul Road Aktifitas</span>
+          <input type="text" placeholder="Judul Road Aktifitas" ng-model="viewroad.JUDUL" disabled>
+        </label>
+        <label class="item item-input item-floating-label">
+         <span class="input-label">Destination</span>
+          <input type="text" placeholder="Isi Tujuan Kemana Anda Pergi" ng-model="viewroad.CUSTOMER" disabled>
+        </label>
+        <label class="item item-input item-floating-label">
+         <span class="input-label">Deskripsi</span>
+          <textarea rows="8" placeholder="Isi Deskripsi Aktifitas Disini" ng-model="viewroad.CASE_NOTE" disabled></textarea>
+        </label>
+        <span class="input-label">Type Road</span>
+          <ion-checkbox ng-repeat="item in devList" ng-checked="true" ng-disabled="true">
+            {{ item}}
+          </ion-checkbox>
+    </div>
+  </ion-content>
+</ion-modal-view>

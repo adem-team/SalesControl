@@ -1,13 +1,18 @@
 <ion-view view-title="KUNJUNGAN">
   <ion-content class="padding">
-    <ion-list>
-<!--       <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="item in customers | orderBy:'CHECKIN_TIME'" type="item-text-wrap" href="#/tab/salesman/{{item.USER_ID}}/{{item.CUST_KD}}"> -->
-<ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="item in customers | orderBy:'CHECKIN_TIME'" type="item-text-wrap" >
-        <img ng-src="img/C.png">
+  <ion-refresher pulling-text="" on-refresh="doRefresh()"></ion-refresher>
+    <ion-list >
+      <ion-item class="item-remove-animate item-avatar item-icon-right"  ng-repeat="item in customers | orderBy:'-CHECKIN_TIME'" type="item-text-wrap">
+        <img ng-src="{{item.IMAGE_CHECK}}">
         <h2>{{item.CUST_NM}}</h2>
         <p>{{item.CHECKIN_TIME}}</p>
         <p>{{item.CHECKOUT_TIME}}</p>
-        <!-- <i class="icon ion-chevron-right icon-accessory"></i> -->
+        <p>{{item.LM_KUNJUNGAN}}</p>
+      </ion-item>
+    </ion-list>
+    <ion-list ng-if="customers.length < 1">
+      <ion-item class="item-remove-animate item-icon-right calm-bg" type="item-text-wrap">
+        <h2 data-fittext="1" data-fittext-max="14">BELUM ADA CUSTOMER YANG DIDAFTARKAN</h2>
       </ion-item>
     </ion-list>
   </ion-content>

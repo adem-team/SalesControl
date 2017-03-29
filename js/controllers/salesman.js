@@ -2,29 +2,34 @@ angular.module('starter')
 .controller('SalesmanCtrl', function($scope,$filter,$ionicLoading,SalesTrackFac) 
 {
     var tanggalplan         = $filter('date')(new Date(),'yyyy-MM-dd');
-    $ionicLoading.show
-    ({
-      template: 'Loading...'
-    })
-    .then(function()
+    $scope.doRefresh    = function()
     {
-        SalesTrackFac.GetSalesTrackAbsensi(tanggalplan)
-        .then(function(response)
-        {
-            if(angular.isArray(response))
-            {
-                $scope.salesmans = response; 
-            }
-            else
-            {
-                $scope.salesmans = []; 
-            }
+        $ionicLoading.show
+        ({
+          template: 'Loading...'
         })
-        .finally(function()
+        .then(function()
         {
-            $ionicLoading.show({template: 'Loading...',duration: 500});  
+            SalesTrackFac.GetSalesTrackAbsensi(tanggalplan)
+            .then(function(response)
+            {
+                if(angular.isArray(response))
+                {
+                    $scope.salesmans = response; 
+                }
+                else
+                {
+                    $scope.salesmans = []; 
+                }
+            })
+            .finally(function()
+            {
+                $ionicLoading.show({template: 'Loading...',duration: 500});
+                $scope.$broadcast('scroll.refreshComplete');  
+            });
         });
-    });
+    }
+    $scope.doRefresh();
 
 })
 
@@ -32,22 +37,28 @@ angular.module('starter')
 {
     var tanggalplan         = $filter('date')(new Date(),'yyyy-MM-dd');
     var userid				= $stateParams.salesmanid;
-    $ionicLoading.show
-    ({
-      template: 'Loading...'
-    })
-    .then(function()
+    $scope.doRefresh    = function()
     {
-        SalesTrackFac.GetSalesTrack(tanggalplan,userid)
-        .then(function(response)
-        {
-            $scope.customers = response;
+        $ionicLoading.show
+        ({
+          template: 'Loading...'
         })
-        .finally(function()
+        .then(function()
         {
-            $ionicLoading.show({template: 'Loading...',duration: 500});
+            SalesTrackFac.GetSalesTrack(tanggalplan,userid)
+            .then(function(response)
+            {
+                $scope.customers = response;
+                console.log($scope.customers);
+            })
+            .finally(function()
+            {
+                $ionicLoading.show({template: 'Loading...',duration: 500});
+                $scope.$broadcast('scroll.refreshComplete');
+            });
         });
-    });
+    }
+    $scope.doRefresh();
 })
 
 .controller('SalesmanDetailDetailCtrl', function($scope, $stateParams, Chats) 

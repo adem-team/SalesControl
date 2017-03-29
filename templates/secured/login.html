@@ -1,21 +1,27 @@
-<ion-view view-title="Login Area" name="login-view">
-  <ion-content class="has-header" padding="true">
-      <form name="loginForm" ng-submit="login(users)" novalidate="">
-        <div class="app-icon"></div>
-        <div class="list list-inset">
+<ion-view id="login" hide-nav-bar="false" view-title="Login Area" name="login-view">
+    <ion-content padding="true" scroll="false">
+            <div class="row responsive-md">
+                <div class="col col-50 col-offset-25">
+                    <div class="header padding text-center">
+                        <img src="img/logo.png" alt="Your logo here"/>
+                    </div>
+                    <form name="loginForm" ng-submit="login(users)" novalidate="">
+                        <div class="list list-inset">
+                            <label class="item item-input item-floating-label">
+                                <span class="input-label">Your Username</span>
+                                <input type="text" ng-model="users.username" class="form-control" placeholder="username" required>
+                            </label>
 
-            <label class="item item-input item-floating-label">
-                <span class="input-label">Your Username</span>
-                <input type="text" ng-model="users.username" class="form-control" placeholder="username" required>
-            </label>
-            <label class="item item-input item-floating-label">
-              <span class="input-label">Your Password</span>
-                <input type="password" ng-model="users.password" class="form-control" placeholder="password" required>
-            </label>
-        </div>
-        <button type="submit" class="button button-block button-assertive" ng-disabled="loginForm.$invalid">
-          Login
-        </button>
-      </form>
-  </ion-content>
+                            <label class="item item-input item-floating-label">
+                              <span class="input-label">Your Password</span>
+                                <input type="password" ng-model="users.password" class="form-control" placeholder="password" required>
+                            </label>
+                        </div>
+                        <button type="submit" class="button button-block button-assertive" ng-disabled="loginForm.$invalid">
+                          Login
+                        </button>
+                    </form>
+                </div>
+            </div>
+    </ion-content>
 </ion-view>

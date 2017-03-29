@@ -30,7 +30,8 @@ angular.module('starter')
                     }
                     else
                     {
-                       salestrack.CHECKOUT_TIME     = executes.CHECKOUT_TIME; 
+                       salestrack.CHECKOUT_TIME     = executes.CHECKOUT_TIME;
+
                     }
                     salestrack.CHECKIN_TIME         = executes.CHECKIN_TIME;
                     salestrack.CUST_KD              = executes.CUST_KD;
@@ -74,18 +75,23 @@ angular.module('starter')
                 salestrack.CUST_NM          = executes.CUST_NM;
                 if(executes.CHECKIN_TIME == null && executes.CHECKOUT_TIME == null)
                 {
-                    salestrack.CHECKIN_TIME     = "BLM KUNJUNGAN";
-                    salestrack.CHECKOUT_TIME    = "BLM KUNJUNGAN";
+                    salestrack.CHECKIN_TIME     = "TIDAK KUNJUNGAN";
+                    salestrack.CHECKOUT_TIME    = "TIDAK KUNJUNGAN";
+                    salestrack.IMAGE_CHECK      = 'img/cross.png';
                 }
                 else
                 {
                     if(executes.CHECKOUT_TIME == null)
                     {
                         salestrack.CHECKOUT_TIME    = "BLM CHECK OUT";
+                        salestrack.IMAGE_CHECK      = 'img/warn.png';
+                        salestrack.LM_KUNJUNGAN      = "SDH BERLANGSUNG " + UtilService.DiffTwoDateTime(executes.CHECKIN_TIME,new Date());
                     }
                     else
                     {
-                       salestrack.CHECKOUT_TIME     = executes.CHECKOUT_TIME; 
+                       salestrack.CHECKOUT_TIME     = executes.CHECKOUT_TIME;
+                       salestrack.IMAGE_CHECK       = 'img/check.png';
+                       salestrack.LM_KUNJUNGAN      = "LM KUNJUNGAN " + UtilService.DiffTwoDateTime(executes.CHECKIN_TIME,executes.CHECKOUT_TIME); 
                     }
                     salestrack.CHECKIN_TIME     = executes.CHECKIN_TIME; 
                 }
@@ -111,7 +117,7 @@ angular.module('starter')
         var url         = UtilService.ApiUrl();
         var deferred    = $q.defer();
 
-        $http.get(url + "master/salesmanabsensis/search?TGL=" + tanggalplan)
+        $http.get(url + "chart/esmsalescontrolabsensis/search?TGL=" + tanggalplan)
         .success(function(data,status,headers,config) 
         {
             deferred.resolve(data.Salesmanabsensi);
